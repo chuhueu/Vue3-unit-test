@@ -1,27 +1,27 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+  <div class="hello">
+    <h1>{{ msg }}</h1>
+    <div v-if="count && count % 2 === 0">{{ count }}: Count is even</div>
+    <div v-else>{{ count }}: Count is odd</div>
+    <button @click="increment">
+      {{ count }}
+    </button>
+  </div>
 </template>
 
-<script lang="ts">
-import { Options, Vue } from 'vue-class-component';
-import HelloWorld from './components/HelloWorld.vue';
+<script setup lang="ts">
+import { computed } from 'vue';
+import { useStore } from 'vuex'
+defineProps<{
+  msg?: string,
+}>()
 
-@Options({
-  components: {
-    HelloWorld,
-  },
-})
-export default class App extends Vue {}
+const store = useStore()
+const count = computed(() => store.state.count)
+
+const increment = () => {
+  store.commit('increment')
+}
+
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
